@@ -23,7 +23,7 @@ This project simulates a virtual IoT-based environmental station that collects t
 ├── station.py                      # Virtual station - generates and publishes sensor data
 ├── station_consumer.py            # Subscribes to topic and stores data in S3
 ├── global_params.py               # Configuration for sensor ranges and distributions
-├── last_data.py                   # Fetches latest reading from S3
+├── latest_sensor_data.py                   # Fetches latest reading from S3
 ├── get_last_5hrs_all_sensors.py   # Fetches past 5 hours of temp, humidity, CO2
 ├── root_ca.pem                    # AWS IoT Core root CA cert
 ├── station.pem.crt                # AWS IoT Core device certificate
@@ -49,7 +49,7 @@ python station_consumer.py --clientid cons1 --topic station
 
 ### 3. View the latest sensor reading
 ```bash
-python last_data.py
+python latest_sensor_data.py
 ```
 
 ### 4. View data from the last 5 hours
