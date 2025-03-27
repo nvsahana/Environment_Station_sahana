@@ -25,7 +25,6 @@ This project simulates a virtual IoT-based environmental station that collects t
 ├── global_params.py               # Configuration for sensor ranges and distributions
 ├── last_data.py                   # Fetches latest reading from S3
 ├── get_last_5hrs_all_sensors.py   # Fetches past 5 hours of temp, humidity, CO2
-├── requirements.txt               # Python dependencies
 ├── root_ca.pem                    # AWS IoT Core root CA cert
 ├── station.pem.crt                # AWS IoT Core device certificate
 ├── station.private.pem.key        # AWS IoT Core private key
@@ -37,27 +36,23 @@ This project simulates a virtual IoT-based environmental station that collects t
 
 Make sure you have AWS credentials set up and your certificates downloaded from AWS IoT Core.
 
-### 1. Install dependencies
-```bash
-pip install -r requirements.txt
-```
 
-### 2. Start the simulated station (Publisher)
+### 1. Start the simulated station (Publisher)
 ```bash
 python station.py --clientid station1 --topic station
 ```
 
-### 3. Start the consumer (Subscriber + S3 uploader)
+### 2. Start the consumer (Subscriber + S3 uploader)
 ```bash
 python station_consumer.py --clientid cons1 --topic station
 ```
 
-### 4. View the latest sensor reading
+### 3. View the latest sensor reading
 ```bash
 python last_data.py
 ```
 
-### 5. View data from the last 5 hours
+### 4. View data from the last 5 hours
 ```bash
 python get_last_5hrs_all_sensors.py
 ```
