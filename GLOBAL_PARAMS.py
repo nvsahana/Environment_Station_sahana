@@ -1,27 +1,22 @@
+# global_params.py
 import math
+
 # GLOBAL PARAMS
-# gaussian distribution
+
+# Noise for adding randomness
 NOISE_MEAN = 0
 NOISE_STD = 1
-# uniform distribution
+
+# Temperature (Uniform Distribution)
 TEMP_MIN = -50
 TEMP_MAX = 50
-#gaussian
-HUM_MEAN = 35
-HUM_STD = 65
-HUM_MAX = 100
+
+# Humidity (Gaussian Distribution)
+HUM_MEAN = 50
+HUM_STD = 25
 HUM_MIN = 0
-# von mise
-WIND_D_MU = math.pi * 2
-WIND_D_K = 0
-WIND_D_MAX = 0  # degrees
-WIND_D_MIN = 360  # degrees
-# uniform
-WIND_I_MIN = 0
-WIND_I_MAX = 100
-# triangular
-RAIN_H_LOW = 0
-RAIN_H_HIGH = 50
-RAIN_H_MODE = 0
-RAIN_H_MIN = 0
-RAIN_H_MAX = 50
+HUM_MAX = 100
+
+# CO2 (Uniform Distribution)
+CO2_MIN = 300
+CO2_MAX = 2000
