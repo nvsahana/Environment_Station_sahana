@@ -1,3 +1,4 @@
+# station_consumer.py
 from station import init_mqtt_connection
 import time
 import json
@@ -16,14 +17,23 @@ def store_data(client, userdata, message):
         print("Received MQTT message:", msg)
         data = json.loads(msg)
 
+        # Only keep temperature, humidity, and CO2
+        filtered_data = {
+            'station_id': data['station_id'],
+            'timestamp': data['timestamp'],
+            'temperature': data.get('temperature'),
+            'humidity': data.get('humidity'),
+            'co2': data.get('co2')
+        }
+
         # Create unique file name
-        filename = f"{data['station_id']}_{data['timestamp'].replace(':', '-').replace(' ', '_')}_{uuid.uuid4()}.json"
+        filename = f"{filtered_data['station_id']}_{filtered_data['timestamp'].replace(':', '-').replace(' ', '_')}_{uuid.uuid4()}.json"
 
         # Upload to S3
         s3.put_object(
             Bucket=BUCKET_NAME,
             Key=filename,
-            Body=json.dumps(data),
+            Body=json.dumps(filtered_data),
             ContentType='application/json'
         )
 
@@ -33,24 +43,22 @@ def store_data(client, userdata, message):
         print(f"Error uploading to S3: {e}")
 
 if __name__ == "__main__":
-    clientId = 'cons1'
-    topic = 'station'
-
     parser = argparse.ArgumentParser(description='Init MQTT Consumer for AWS IoT + S3')
     parser.add_argument('--clientid', type=str, default='cons1')
     parser.add_argument('--topic', type=str, default='station')
     args = parser.parse_args()
 
-    print("========== Running With ==========\nClientID:\t%s\nTopic:\t%s" % (args.clientid, args.topic))
     clientId = args.clientid
     topic = args.topic
 
-    # Connect to AWS IoT
-    myAWSIoTMQTTClient = init_mqtt_connection(clientId=clientId)
-    myAWSIoTMQTTClient.connect()
+    print("========== Running With ==========")
+    print("ClientID:\t%s" % clientId)
+    print("Topic:\t%s" % topic)
 
-    # Subscribe to the topic
-    myAWSIoTMQTTClient.subscribe(topic, 1, store_data)
+    mqtt_client = init_mqtt_connection(clientId=clientId)
+    mqtt_client.connect()
+
+    mqtt_client.subscribe(topic, 1, store_data)
 
     while True:
         print("Listening...")
