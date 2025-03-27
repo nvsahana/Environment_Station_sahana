@@ -29,7 +29,7 @@ def display_latest_data():
     obj = s3.get_object(Bucket=BUCKET_NAME, Key=latest_file['Key'])
     data = json.loads(obj['Body'].read())
     
-    print(f"\n📡 Latest data for {STATION_ID}:\n")
+    print(f"\nLatest data for {STATION_ID}:\n")
     for key, value in data.items():
         print(f"{key}: {value}")
 
